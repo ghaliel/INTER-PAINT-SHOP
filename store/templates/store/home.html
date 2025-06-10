@@ -1,0 +1,80 @@
+{% extends 'store/base.html' %}
+{% block title %}Accueil - PeinturePro{% endblock %}
+{% block extra_head %}
+<style>
+    .hero-section {
+        background: url('https://images.unsplash.com/photo-1558231221-50e82c5a24ec?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+        color: #fff;
+        text-align: center;
+        padding: 80px 20px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .hero-section h1 {
+        font-size: 3em;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero-section p {
+        font-size: 1.4em;
+        max-width: 700px;
+        margin: 0 auto 30px auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    .advantages-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 30px;
+        margin-top: 40px;
+        text-align: center;
+    }
+    .advantage-item {
+        background: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        flex: 1 1 calc(33% - 40px);
+        min-width: 280px;
+        max-width: 320px;
+    }
+    .advantage-item h2 {
+        color: #b80000;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .advantage-item p {
+        color: #555;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="hero-section">
+    <h1>Inter Paint : Votre Partenaire Couleur</h1>
+    <p>Transformez vos espaces avec nos peintures de qualité supérieure. Des couleurs éclatantes, une application facile, et une durabilité exceptionnelle.</p>
+    <a href="{% url 'product_list' %}" class="btn">Découvrir nos produits</a>
+</div>
+
+<div class="container">
+    <h1 style="color:#b80000;text-align:center;margin-bottom:40px;">Pourquoi choisir INTER PAINT ?</h1>
+    <div class="advantages-section">
+        <div class="advantage-item">
+            <h2>Qualité Supérieure</h2>
+            <p>Nos peintures sont formulées avec les meilleurs pigments pour une couleur riche et une finition durable.</p>
+        </div>
+        <div class="advantage-item">
+            <h2>Conseils d'Experts</h2>
+            <p>Notre équipe est là pour vous guider dans vos choix et vous offrir des conseils personnalisés.</p>
+        </div>
+        <div class="advantage-item">
+            <h2>Livraison Rapide</h2>
+            <p>Recevez vos commandes en un temps record, directement chez vous ou sur votre chantier.</p>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:50px;">
+        <a href="{% url 'about' %}" class="btn" style="margin-right:15px;">En savoir plus sur nous</a>
+        <a href="{% url 'contact' %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">Nous contacter</a>
+    </div>
+</div>
+{% endblock %} 

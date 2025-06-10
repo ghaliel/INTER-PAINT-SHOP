@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Boutique de Peinture{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff; margin: 0; }
+        .navbar {
+            background: #32a8a2; /* Couleur primaire - Turquoise/Vert d'eau */
+            color: #fff;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 70px;
+        }
+        .navbar .left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 18px;
+        }
+        .navbar .logo img {
+            height: 44px;
+            width: auto;
+            margin-right: 8px;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0 8px;
+            font-size: 1.08em;
+            transition: color 0.2s;
+        }
+        .navbar a:hover {
+            color: #F7B731; /* Couleur d'accent - Jaune/Orange */
+            text-decoration: underline;
+        }
+        .navbar .right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar .user {
+            margin-right: 10px;
+        }
+        .btn, button {
+            background: #32a8a2; /* Couleur primaire */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn:hover, button:hover {
+            background: #F7B731; /* Couleur d'accent */
+        }
+        .messages {
+            max-width: 900px;
+            margin: 20px auto 0 auto;
+        }
+        .messages .success { color: #27ae60; }
+        .messages .error { color: #cc0000; } /* Rouge standard pour les erreurs */
+        footer {
+            background: #32a8a2; /* Couleur primaire */
+            color: #fff;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        footer a { color: #fff; }
+        @media (max-width: 700px) {
+            .navbar .container, .container, footer > div {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                padding: 0 10px;
+            }
+            .navbar .container {
+                gap: 10px;
+                height: auto;
+            }
+            .navbar .right {
+                margin-top: 10px;
+            }
+            .container {
+                max-width: 100% !important;
+                margin: 10px 0 !important;
+                padding: 10px !important;
+            }
+            table, th, td {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <div class="left">
+                <div class="logo">
+                    <img src="{% static 'images/paint_shop_logo.png' %}">
+                    <span>INTER PAINT</span>
+                </div>
+                <a href="{% url 'home' %}">Accueil</a>
+                <a href="{% url 'product_list' %}">Produits</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+            </div>
+            <div class="right">
+                {% if user.is_authenticated %}
+                    <span class="user">Bonjour, {{ user.username }}</span>
+                    <a href="{% url 'logout' %}">Déconnexion</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Connexion</a>
+                    <a href="{% url 'register' %}">Inscription</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% block content %}{% endblock %}
+    <footer>
+        <div style="max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+            <div>
+                <strong>INTER PAINT</strong><br>
+                &copy; {{ now|date:'Y' }} INTER PAINT. Tous droits réservés.
+            </div>
+            <div>
+                <a href="mailto:elasrighali2003@gmail.com">elasrighali2003@gmail.com</a><br>
+                <a href="{% url 'contact' %}">Contact</a> |
+                <a href="#">Mentions légales</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,26 @@
+{% extends 'store/base.html' %}
+{% block title %}Connexion - PeinturePro{% endblock %}
+{% block content %}
+<div class="container" style="max-width:420px; margin: 50px auto 0 auto;">
+    <h1 style="color:#32a8a2;text-align:center; margin-bottom: 25px;">Connexion</h1>
+    <form method="post" style="display:flex;flex-direction:column;gap:14px;background:#fff;padding:28px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        {% csrf_token %}
+        {% for field in form %}
+            <div style="display:flex;flex-direction:column;">
+                <label for="{{ field.id_for_label }}" style="font-weight:bold;color:#333;margin-bottom:4px;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color:#666;font-size:0.9em;margin-top:4px;">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <span style="color:#cc0000;font-size:0.9em;margin-top:4px;">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn" style="margin-top:10px;">Se connecter</button>
+    </form>
+    <div style="margin-top:18px;text-align:center;">
+        <span>Pas encore de compte ?</span> <a href="{% url 'register' %}" style="color:#32a8a2;font-weight:bold;">Créer un compte</a>
+    </div>
+</div>
+{% endblock %} 

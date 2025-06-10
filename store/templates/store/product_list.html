@@ -1,0 +1,50 @@
+{% extends 'store/base.html' %}
+{% block title %}Nos Peintures{% endblock %}
+{% block content %}
+<div class="container" style="text-align: center;">
+    <h1 style="color:#b80000;">Nos Peintures</h1>
+    <form method="get" style="margin-bottom:20px; display: inline-block;">
+        <input type="text" name="q" placeholder="Recherche..." value="{{ query }}" style="padding:6px;">
+        <select name="category" style="padding:6px;">
+            <option value="">Toutes les catégories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if category_id|add:'0' == cat.id|add:'0' %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">Filtrer</button>
+    </form>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:center;">
+    {% for product in products %}
+        <div style="background:#fff;border-radius:8px;box-shadow:0 2px 8px #ccc;padding:18px;width:270px;display:flex;flex-direction:column;align-items:center;">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:220px;max-height:160px;border-radius:6px;object-fit:cover;">
+            {% elif product.image_url %}
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" style="max-width:220px;max-height:160px;border-radius:6px;object-fit:cover;">
+            {% else %}
+                <div style="width:220px;height:160px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#aaa;">Aucune image</div>
+            {% endif %}
+            <div class="name" style="font-size:1.2em;margin:10px 0 4px 0;"><a href="{% url 'product_detail' product.pk %}" style="color:#b80000;">{{ product.name }}</a></div>
+            <div class="desc" style="color:#555;">{{ product.description|truncatechars:60 }}</div>
+            <div class="color" style="font-weight:bold;color:#b80000;">Couleur : {{ product.color }}</div>
+            <div class="category" style="color:#888;">Catégorie : {{ product.category }}</div>
+            <div class="price" style="font-size:1.1em;color:#b80000;margin:8px 0 2px 0;">{{ product.price }} €</div>
+            <div class="stock" style="color:#888;">Stock : {{ product.stock }}</div>
+            <div style="margin-top:10px;display:flex;gap:8px;">
+                <form method="post" action="{% url 'add_to_cart' product.pk %}" style="display:flex;gap:5px;align-items:center;">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" style="width:50px;padding:6px;border-radius:4px;border:1px solid #ccc;">
+                    {% if user.is_authenticated %}
+                        <button type="submit" class="btn">Ajouter au panier</button>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn">Connectez-vous pour acheter</a>
+                    {% endif %}
+                </form>
+                <a href="{% url 'product_detail' product.pk %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">Détail</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Aucun produit disponible pour le moment.</p>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %} 

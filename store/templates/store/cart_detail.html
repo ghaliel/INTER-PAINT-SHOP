@@ -1,0 +1,50 @@
+{% extends 'store/base.html' %}
+{% block title %}Mon Panier - INTER PAINT{% endblock %}
+{% block content %}
+<div class="container" style="max-width:800px;">
+    <h1 style="color:#b80000;">Mon Panier</h1>
+    {% if cart.items.all %}
+    <table style="width:100%;border-collapse:collapse;margin-top:20px;background:#fff;box-shadow:0 2px 8px #eee;">
+        <tr style="background:#ffd6d6;">
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        {% for data in cart_items_data %}
+        <tr>
+            <td>{{ data.item.product.name }}</td>
+            <td>
+                <form method="post" action="{% url 'update_cart_item' data.item.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ data.item.quantity }}" min="1" max="{{ data.item.product.stock }}" style="width:50px;padding:4px;border-radius:4px;border:1px solid #ccc;">
+                    <button type="submit" class="btn" style="padding:4px 10px;font-size:0.95em;">Modifier</button>
+                </form>
+            </td>
+            <td>{{ data.item.product.price }} €</td>
+            <td>{{ data.item_total|floatformat:2 }} €</td>
+            <td>
+                <form method="post" action="{% url 'update_cart_item' data.item.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="0">
+                    <button type="submit" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;padding:4px 10px;font-size:0.95em;">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div style="text-align:right;margin-top:18px;font-size:1.2em;font-weight:bold;color:#b80000;">
+        Total : {{ cart_total|floatformat:2 }} €
+    </div>
+    <form method="post" action="{% url 'place_order' %}" style="text-align:right;margin-top:18px;">
+        {% csrf_token %}
+        <button type="submit" class="btn">Passer la commande</button>
+    </form>
+    {% else %}
+        <p>Votre panier est vide.</p>
+    {% endif %}
+    <br>
+    <a href="{% url 'product_list' %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">← Continuer mes achats</a>
+</div>
+{% endblock %} 

@@ -1,0 +1,30 @@
+{% extends 'store/base.html' %}
+{% block title %}Contactez-nous - PeinturePro{% endblock %}
+{% block content %}
+<div class="container" style="max-width:600px;">
+    <h1 style="color:#b80000;text-align:center;">Contactez-nous</h1>
+    <p style="text-align:center;color:#555;margin-bottom:25px;">Une question, un besoin de conseil ou un devis ? Remplissez le formulaire ci-dessous, notre équipe vous répondra rapidement.</p>
+    <form method="post" style="display:flex;flex-direction:column;gap:14px;background:#fff;padding:28px 24px;border-radius:8px;box-shadow:0 2px 8px #eee;">
+        {% csrf_token %}
+        <div style="display:flex;flex-direction:column;">
+            <label for="name" style="font-weight:bold;color:#333;margin-bottom:4px;">Nom</label>
+            <input type="text" name="name" id="name" required style="padding:8px;border:1px solid #ccc;border-radius:4px;">
+        </div>
+        <div style="display:flex;flex-direction:column;">
+            <label for="email" style="font-weight:bold;color:#333;margin-bottom:4px;">Email</label>
+            <input type="email" name="email" id="email" required style="padding:8px;border:1px solid #ccc;border-radius:4px;">
+        </div>
+        <div style="display:flex;flex-direction:column;">
+            <label for="message" style="font-weight:bold;color:#333;margin-bottom:4px;">Message</label>
+            <textarea name="message" id="message" required style="padding:8px;border:1px solid #ccc;border-radius:4px;min-height:120px;"></textarea>
+        </div>
+        <button type="submit" class="btn" style="margin-top:10px;">Envoyer</button>
+    </form>
+    <div style="margin-top:30px;text-align:center;padding:18px;background:#fff;border-radius:8px;box-shadow:0 2px 8px #eee;">
+        <strong style="color:#b80000;font-size:1.1em;">INTER PAINT</strong><br>
+        Gueliz , 40000 Marrakech<br>
+        Tél :06 45 25 01 78<br>
+        Email : <a href="mailto:elasrighali2003@gmail.com" style="color:#b80000;font-weight:bold;">elasrighali2003@gmail.com</a>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,56 @@
+{% extends 'store/base.html' %}
+{% block title %}Mes Commandes - PeinturePro{% endblock %}
+{% block content %}
+<div class="container" style="max-width:900px;">
+    <h1 style="color:#32a8a2;">Mes Commandes</h1>
+    {% if orders %}
+    <table style="width:100%;border-collapse:collapse;margin-top:20px;background:#fff;box-shadow:0 2px 8px #eee;">
+        <tr style="background:#F7B731;">
+            <th>ID</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Total</th>
+            <th>Produits</th>
+            <th>Adresse de Livraison</th>
+            <th>Actions</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+            <td style="font-weight:bold;color:#32a8a2;">{{ order.status }}</td>
+            <td style="font-weight:bold;color:#32a8a2;">{{ order.total }} €</td>
+            <td>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    {% for item in order.items.all %}
+                    <li>{{ item.quantity }} x {{ item.product.name }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {% if order.shipping_address %}
+                    {{ order.shipping_address }}<br>
+                    {{ order.shipping_postal_code }} {{ order.shipping_city }}<br>
+                    {{ order.shipping_country }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if order.status != 'Annulée' and order.status != 'Expédiée' and order.status != 'Livrée' %}
+                    <a href="{% url 'edit_shipping_address' order.pk %}" class="btn" style="background:#F7B731;color:#fff;padding:5px 10px;font-size:0.85em;margin-bottom:5px;">Modifier Adresse</a>
+                    <a href="{% url 'cancel_order' order.pk %}" class="btn" style="background:#cc0000;color:#fff;padding:5px 10px;font-size:0.85em;" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?');">Annuler</a>
+                {% else %}
+                    <span style="font-size:0.85em;color:#777;">Non modifiable</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>Vous n'avez pas encore passé de commande.</p>
+    {% endif %}
+    <br>
+    <a href="{% url 'product_list' %}" class="btn" style="background:#fff;color:#32a8a2;border:1.5px solid #32a8a2;">← Retour à la boutique</a>
+</div>
+{% endblock %} 

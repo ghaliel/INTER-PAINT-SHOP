@@ -1,0 +1,16 @@
+{% extends 'store/base.html' %}
+{% block title %}Modifier Adresse de Livraison - Commande #{{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:600px;">
+    <h1 style="color:#32a8a2;">Modifier l'Adresse de Livraison</h1>
+    <h2 style="color:#F7B731;">Commande #{{ order.id }}</h2>
+
+    <form method="post" style="background:#fff;padding:25px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Mettre à jour l'adresse</button>
+        <a href="{% url 'order_history' %}" class="btn" style="background:#fff;color:#32a8a2;border:1.5px solid #32a8a2;margin-left:10px;">Annuler</a>
+    </form>
+</div>
+{% endblock %} 

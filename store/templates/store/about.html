@@ -1,0 +1,84 @@
+{% extends 'store/base.html' %}
+{% block title %}À propos de nous - Inter Paint{% endblock %}
+{% block extra_head %}
+<style>
+    .about-section {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        align-items: flex-start;
+        margin-left: auto;
+    }
+    .about-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .about-item .icon {
+        font-size: 2.5em;
+        color: #b80000;
+    }
+    .about-item .content h2 {
+        color: #b80000;
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.4em;
+        text-align: center;
+    }
+    .about-item .content p {
+        color: #555;
+        line-height: 1.6;
+        text-align: center;
+
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container" style="max-width:900px;">
+    <h1 style="color:#b80000;text-align:center;margin-bottom:40px;">Notre histoire et nos valeurs</h1>
+    <div class="about-section" style="text-align: center;">
+        <p style="font-size:1.2em;text-align:center;color:#333;margin-bottom:20px;">Inter Paint, c'est avant tout une passion pour la couleur et la qualité. Notre équipe met tout en œuvre pour vous proposer des produits performants, respectueux de l'environnement et adaptés à tous vos besoins.</p>
+        
+        <div class="about-item">
+            <div class="icon">🎨</div>
+            <div class="content">
+                <h2>Expertise et Qualité</h2>
+                <p>Avec plus de 20 ans d'expérience, nous sélectionnons les meilleures peintures et vous offrons des conseils d'experts pour des résultats impeccables.</p>
+            </div>
+        </div>
+
+        <div class="about-item">
+            <div class="icon">🌍</div>
+            <div class="content">
+                <h2>Engagement Écologique</h2>
+                <p>Nous privilégions les peintures à faible émission de COV et nous engageons pour un avenir plus respectueux de l'environnement.</p>
+            </div>
+        </div>
+
+        <div class="about-item">
+            <div class="icon">🤝</div>
+            <div class="content">
+                <h2>Accompagnement Sur-Mesure</h2>
+                <p>Chaque projet est unique. Notre équipe vous accompagne du choix des couleurs à la réalisation, avec un service client réactif.</p>
+            </div>
+        </div>
+
+        <div class="about-item">
+            <div class="icon">📦</div>
+            <div class="content">
+                <h2>Livraison et Stock</h2>
+                <p>Profitez de plus de 500 références en stock et d'une livraison rapide partout en France pour ne jamais être à court.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align:center;margin-top:50px;">
+        <a href="{% url 'product_list' %}" class="btn" style="margin-right:15px;">Découvrir nos produits</a>
+        <a href="{% url 'contact' %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">Nous contacter</a>
+    </div>
+</div>
+{% endblock %} 

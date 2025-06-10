@@ -1,0 +1,21 @@
+Subject: Confirmation de votre commande INTER PAINT #{{ order.id }}
+
+Bonjour {{ order.user.username }},
+
+Nous avons bien reçu votre commande #{{ order.id }} passée le {{ order.created_at|date:"d/m/Y H:i" }}.
+Votre commande est actuellement : {{ order.status }}.
+
+Détails de la commande :
+{% for item in order.items.all %}
+- {{ item.quantity }} x {{ item.product.name }} ({{ item.product.color }}) - {{ item.price }} €/unité
+{% endfor %}
+
+Total de la commande : {{ order.total }} €
+
+Vous pouvez consulter le statut de votre commande et votre historique ici :
+{{ request.build_absolute_uri }}{% url 'order_history' %}
+
+Nous vous remercions de votre achat chez INTER PAINT.
+
+Cordialement,
+L'équipe INTER PAINT 
