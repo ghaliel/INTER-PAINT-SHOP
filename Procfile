@@ -1,0 +1,1 @@
+web: gunicorn paintshop.wsgi --log-file - 
