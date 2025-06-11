@@ -11,17 +11,23 @@ class Category(models.Model):
         return self.name
 
 class PaintProduct(models.Model):
+    GAMME_CHOICES = [
+        ('luxe', 'Gamme de Luxe'),
+        ('pro', 'Gamme Pro'),
+    ]
+    
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     color = models.CharField(max_length=50)
     stock = models.PositiveIntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+    gamme = models.CharField(max_length=10, choices=GAMME_CHOICES, default='pro', verbose_name='Gamme')
     image_url = models.URLField(blank=True, null=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name} ({self.color})"
+        return f"{self.name} ({self.color}) - {self.get_gamme_display()}"
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

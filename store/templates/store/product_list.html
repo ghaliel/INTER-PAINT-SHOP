@@ -11,6 +11,11 @@
                 <option value="{{ cat.id }}" {% if category_id|add:'0' == cat.id|add:'0' %}selected{% endif %}>{{ cat.name }}</option>
             {% endfor %}
         </select>
+        <select name="gamme" style="padding:6px;">
+            <option value="">Toutes les gammes</option>
+            <option value="luxe" {% if gamme == 'luxe' %}selected{% endif %}>Gamme de Luxe</option>
+            <option value="pro" {% if gamme == 'pro' %}selected{% endif %}>Gamme Pro</option>
+        </select>
         <button type="submit" class="btn">Filtrer</button>
     </form>
     <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:center;">
@@ -27,6 +32,13 @@
             <div class="desc" style="color:#555;">{{ product.description|truncatechars:60 }}</div>
             <div class="color" style="font-weight:bold;color:#b80000;">Couleur : {{ product.color }}</div>
             <div class="category" style="color:#888;">Catégorie : {{ product.category }}</div>
+            <div class="gamme" style="color:#888;font-weight:bold;">
+                {% if product.gamme == 'luxe' %}
+                    <span style="color:#d4af37;">⭐ Gamme de Luxe</span>
+                {% else %}
+                    <span style="color:#0066cc;">🔧 Gamme Pro</span>
+                {% endif %}
+            </div>
             <div class="price" style="font-size:1.1em;color:#b80000;margin:8px 0 2px 0;">{{ product.price }} €</div>
             <div class="stock" style="color:#888;">Stock : {{ product.stock }}</div>
             <div style="margin-top:10px;display:flex;gap:8px;">

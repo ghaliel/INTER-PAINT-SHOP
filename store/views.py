@@ -16,13 +16,24 @@ from .forms import ShippingAddressForm, UserRegisterForm # Import du nouveau for
 def product_list(request):
     query = request.GET.get('q', '')
     category_id = request.GET.get('category', '')
+    gamme = request.GET.get('gamme', '')
     products = PaintProduct.objects.all()
     categories = Category.objects.all()
+    
     if query:
         products = products.filter(Q(name__icontains=query) | Q(description__icontains=query) | Q(color__icontains=query))
     if category_id:
         products = products.filter(category_id=category_id)
-    return render(request, 'store/product_list.html', {'products': products, 'categories': categories, 'query': query, 'category_id': category_id})
+    if gamme:
+        products = products.filter(gamme=gamme)
+        
+    return render(request, 'store/product_list.html', {
+        'products': products, 
+        'categories': categories, 
+        'query': query, 
+        'category_id': category_id,
+        'gamme': gamme
+    })
 
 # Détail produit
 def product_detail(request, pk):

@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import PaintProduct, Category, Cart, CartItem, Order, OrderItem
 
 class PaintProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'color', 'price', 'stock', 'category', 'image_tag')
+    list_display = ('name', 'color', 'price', 'stock', 'category', 'gamme', 'image_tag')
     search_fields = ('name', 'color', 'category__name')
-    list_filter = ('category',)
+    list_filter = ('category', 'gamme')
     readonly_fields = ('image_tag',)
     
     def image_tag(self, obj):
