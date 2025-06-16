@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rapport Complet des Commandes - INTER PAINT</title>
+    <style>
+        body { font-family: sans-serif; margin: 20mm; }
+        h1 { color: #b80000; text-align: center; }
+        h2 { color: #32a8a2; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 20px; }
+        h3 { color: #666; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; word-wrap: break-word; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        .summary-item { margin-bottom: 5px; }
+        .summary-item strong { color: #b80000; }
+        .total { text-align: right; font-weight: bold; margin-top: 10px; font-size: 1.1em; }
+        .footer { text-align: center; font-size: 0.8em; color: #777; margin-top: 30px; }
+        .stats { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stat-item { text-align: center; padding: 10px; background: white; border-radius: 3px; }
+        .order-summary { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; page-break-after: always; }
+        .date-header { background-color: #e8f4f8; padding: 8px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Rapport Complet des Commandes</h1>
+    <p><strong>Date de génération:</strong> {{ now|date:"d/m/Y H:i" }}</p>
+    
+    <div class="stats">
+        <h2>Statistiques Générales</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <strong>Total des commandes:</strong><br>
+                {{ orders.count }}
+            </div>
+            <div class="stat-item">
+                <strong>Montant total:</strong><br>
+                {{ total_amount|floatformat:2 }} MAD
+            </div>
+            <div class="stat-item">
+                <strong>Commandes en attente:</strong><br>
+                {{ pending_orders }}
+            </div>
+            <div class="stat-item">
+                <strong>Commandes confirmées:</strong><br>
+                {{ confirmed_orders }}
+            </div>
+        </div>
+    </div>
+
+    <h2>Détail des Commandes</h2>
+    
+    {% if orders %}
+        {% regroup orders by created_at|date:"d/m/Y" as orders_by_date %}
+        {% for date_group in orders_by_date %}
+            <div class="date-header">
+                📅 {{ date_group.grouper }} - {{ date_group.list|length }} commande(s)
+            </div>
+            {% for order in date_group.list %}
+            <div class="order-summary">
+                <h3>Commande #{{ order.id }} - Client: {{ order.user.username }} - {{ order.created_at|date:"H:i" }}</h3>
+                <p><strong>Statut:</strong> {{ order.status }}</p>
+                <p>
+                    <strong>Adresse de livraison:</strong> 
+                    {% if order.shipping_address %}
+                        {{ order.shipping_address }}, {{ order.shipping_postal_code }} {{ order.shipping_city }}, {{ order.shipping_country }}
+                    {% else %}
+                        Non spécifiée
+                    {% endif %}
+                </p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Produit</th>
+                            <th style="width: 15%; text-align: center;">Quantité</th>
+                            <th style="width: 25%;">Prix unitaire</th>
+                            <th style="width: 20%;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }} ({{ item.product.color }})</td>
+                            <td style="text-align: center;">{{ item.quantity }}</td>
+                            <td>{{ item.price }} MAD</td>
+                            <td>{{ item.get_total }} MAD</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Aucun article dans cette commande.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p class="total">Total de la commande: {{ order.total }} MAD</p>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>Aucune commande à afficher pour le moment.</p>
+    {% endif %}
+
+    <div class="footer">
+        INTER PAINT Ltd - Rapport Administratif des Commandes<br>
+        Généré le {{ now|date:"d/m/Y à H:i" }}
+    </div>
+</body>
+</html> 

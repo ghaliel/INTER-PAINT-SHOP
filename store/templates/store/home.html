@@ -1,80 +1,523 @@
 {% extends 'store/base.html' %}
-{% block title %}Accueil - PeinturePro{% endblock %}
+{% block title %}Accueil - INTER PAINT{% endblock %}
 {% block extra_head %}
 <style>
+    /* Hero Section */
     .hero-section {
-        background: url('https://images.unsplash.com/photo-1558231221-50e82c5a24ec?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+        background: linear-gradient(135deg, #32a8a2 0%, #2c8a85 100%);
         color: #fff;
         text-align: center;
-        padding: 80px 20px;
-        margin-bottom: 30px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 100px 20px;
+        margin-bottom: 0;
+        position: relative;
+        overflow: hidden;
     }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
     .hero-section h1 {
-        font-size: 3em;
-        margin-bottom: 15px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
+    
     .hero-section p {
         font-size: 1.4em;
-        max-width: 700px;
-        margin: 0 auto 30px auto;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        margin-bottom: 40px;
+        line-height: 1.6;
+        opacity: 0.95;
     }
-    .advantages-section {
+    
+    .hero-buttons {
         display: flex;
+        gap: 20px;
+        justify-content: center;
         flex-wrap: wrap;
-        justify-content: space-around;
-        gap: 30px;
-        margin-top: 40px;
+    }
+    
+    .btn-hero {
+        padding: 15px 30px;
+        font-size: 1.1em;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background: #F7B731;
+        color: #fff;
+        border: 2px solid #F7B731;
+    }
+    
+    .btn-primary:hover {
+        background: #e6a61c;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(247, 183, 49, 0.4);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: #fff;
+        border: 2px solid #fff;
+    }
+    
+    .btn-secondary:hover {
+        background: #fff;
+        color: #32a8a2;
+        transform: translateY(-2px);
+    }
+    
+    /* Stats Section */
+    .stats-section {
+        background: #f8f9fa;
+        padding: 60px 0;
         text-align: center;
     }
-    .advantage-item {
-        background: #fff;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        flex: 1 1 calc(33% - 40px);
-        min-width: 280px;
-        max-width: 320px;
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
     }
-    .advantage-item h2 {
-        color: #b80000;
-        font-size: 1.5em;
+    
+    .stat-item {
+        background: #fff;
+        padding: 30px 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-number {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #32a8a2;
         margin-bottom: 10px;
     }
-    .advantage-item p {
-        color: #555;
+    
+    .stat-label {
+        font-size: 1.1em;
+        color: #666;
+        font-weight: 500;
+    }
+    
+    /* Featured Products */
+    .featured-section {
+        padding: 80px 0;
+        background: #fff;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5em;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    
+    .section-title p {
+        font-size: 1.2em;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .product-card {
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .product-image {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-image::before {
+        content: '🎨';
+        font-size: 3em;
+        position: absolute;
+        opacity: 0.3;
+    }
+    
+    .product-info {
+        padding: 25px;
+    }
+    
+    .product-name {
+        font-size: 1.3em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .product-color {
+        color: #666;
+        margin-bottom: 15px;
+        font-size: 0.95em;
+    }
+    
+    .product-price {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: #32a8a2;
+        margin-bottom: 20px;
+    }
+    
+    .product-gamme {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    
+    .gamme-luxe {
+        background: #ffd700;
+        color: #333;
+    }
+    
+    .gamme-pro {
+        background: #32a8a2;
+        color: #fff;
+    }
+    
+    /* Categories Section */
+    .categories-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 80px 0;
+    }
+    
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .category-card {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .category-icon {
+        font-size: 3em;
+        margin-bottom: 20px;
+        color: #32a8a2;
+    }
+    
+    .category-name {
+        font-size: 1.4em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    
+    .category-description {
+        color: #666;
+        line-height: 1.6;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, #32a8a2 0%, #2c8a85 100%);
+        color: #fff;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .cta-title {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+    
+    .cta-text {
+        font-size: 1.2em;
+        margin-bottom: 40px;
+        line-height: 1.6;
+        opacity: 0.95;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-section h1 {
+            font-size: 2.5em;
+        }
+        
+        .hero-section p {
+            font-size: 1.2em;
+        }
+        
+        .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .section-title h2 {
+            font-size: 2em;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .categories-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .hero-section {
+            padding: 60px 20px;
+        }
+        
+        .hero-section h1 {
+            font-size: 2em;
+        }
     }
 </style>
 {% endblock %}
-{% block content %}
-<div class="hero-section">
-    <h1>Inter Paint : Votre Partenaire Couleur</h1>
-    <p>Transformez vos espaces avec nos peintures de qualité supérieure. Des couleurs éclatantes, une application facile, et une durabilité exceptionnelle.</p>
-    <a href="{% url 'product_list' %}" class="btn">Découvrir nos produits</a>
-</div>
 
-<div class="container">
-    <h1 style="color:#b80000;text-align:center;margin-bottom:40px;">Pourquoi choisir INTER PAINT ?</h1>
-    <div class="advantages-section">
-        <div class="advantage-item">
-            <h2>Qualité Supérieure</h2>
-            <p>Nos peintures sont formulées avec les meilleurs pigments pour une couleur riche et une finition durable.</p>
-        </div>
-        <div class="advantage-item">
-            <h2>Conseils d'Experts</h2>
-            <p>Notre équipe est là pour vous guider dans vos choix et vous offrir des conseils personnalisés.</p>
-        </div>
-        <div class="advantage-item">
-            <h2>Livraison Rapide</h2>
-            <p>Recevez vos commandes en un temps record, directement chez vous ou sur votre chantier.</p>
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>INTER PAINT</h1>
+        <p>Votre partenaire de confiance pour tous vos projets de peinture. Découvrez notre gamme complète de produits de qualité professionnelle et nos conseils d'experts.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'store:product_list' %}" class="btn-hero btn-primary">Découvrir nos produits</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'store:order_history' %}" class="btn-hero btn-secondary">
+                📦 Mes Commandes
+            </a>
+            {% endif %}
         </div>
     </div>
-    <div style="text-align:center;margin-top:50px;">
-        <a href="{% url 'about' %}" class="btn" style="margin-right:15px;">En savoir plus sur nous</a>
-        <a href="{% url 'contact' %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">Nous contacter</a>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-number">{{ total_products }}</div>
+            <div class="stat-label">Produits Disponibles</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">{{ total_categories }}</div>
+            <div class="stat-label">Catégories</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Gammes de Qualité</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support Client</div>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-section">
+    <div class="section-title">
+        <h2>Nos Produits en Vedette</h2>
+        <p>Découvrez notre sélection de peintures de qualité, soigneusement choisies pour répondre à tous vos besoins</p>
+    </div>
+    
+    <div class="products-grid">
+        {% for product in featured_products %}
+        <div class="product-card">
+            <div class="product-image">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% elif product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <div class="product-gamme gamme-{{ product.gamme }}">
+                    {{ product.get_gamme_display }}
+                </div>
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-color">Couleur: {{ product.color }}</p>
+                <div class="product-price">{{ product.price }} MAD</div>
+                <a href="{% url 'store:product_detail' product.pk %}" class="btn">Voir le produit</a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+            <p style="font-size: 1.2em; color: #666;">Aucun produit disponible pour le moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div style="text-align: center; margin-top: 50px;">
+        <a href="{% url 'store:product_list' %}" class="btn" style="background: #32a8a2; color: #fff; padding: 15px 30px; font-size: 1.1em;">Voir tous nos produits</a>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+    <div class="section-title">
+        <h2>Nos Catégories</h2>
+        <p>Explorez notre gamme complète de produits organisés par catégories</p>
+    </div>
+    
+    <div class="categories-grid">
+        {% for category in categories %}
+        <div class="category-card">
+            <div class="category-icon">🎨</div>
+            <h3 class="category-name">{{ category.name }}</h3>
+            <p class="category-description">{{ category.description|default:"Découvrez notre sélection de produits dans cette catégorie." }}</p>
+        </div>
+        {% empty %}
+        <div class="category-card">
+            <div class="category-icon">🏠</div>
+            <h3 class="category-name">Peinture Intérieure</h3>
+            <p class="category-description">Peintures spécialement formulées pour l'intérieur de votre maison.</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">🏢</div>
+            <h3 class="category-name">Peinture Extérieure</h3>
+            <p class="category-description">Peintures résistantes aux intempéries pour vos façades.</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">🛠️</div>
+            <h3 class="category-name">Primaires & Apprêts</h3>
+            <p class="category-description">Préparez vos surfaces avec nos primaires de qualité.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Gamme Luxe Section -->
+{% if luxe_products %}
+<section class="featured-section" style="background: #f8f9fa;">
+    <div class="section-title">
+        <h2>Gamme de Luxe</h2>
+        <p>Nos produits haut de gamme pour des finitions exceptionnelles</p>
+    </div>
+    
+    <div class="products-grid">
+        {% for product in luxe_products %}
+        <div class="product-card">
+            <div class="product-image">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% elif product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <div class="product-gamme gamme-luxe">
+                    {{ product.get_gamme_display }}
+                </div>
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-color">Couleur: {{ product.color }}</p>
+                <div class="product-price">{{ product.price }} MAD</div>
+                <a href="{% url 'store:product_detail' product.pk %}" class="btn">Voir le produit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2 class="cta-title">Prêt à transformer votre espace ?</h2>
+        <p class="cta-text">Rejoignez des milliers de clients satisfaits qui ont choisi INTER PAINT pour leurs projets. Notre équipe d'experts est là pour vous accompagner à chaque étape.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'store:product_list' %}" class="btn-hero btn-primary">Commencer maintenant</a>
+            <a href="{% url 'store:contact' %}" class="btn-hero btn-secondary">Nous contacter</a>
+        </div>
+    </div>
+</section>
 {% endblock %} 

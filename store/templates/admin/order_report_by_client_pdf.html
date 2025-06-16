@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rapport des Commandes par Client - INTER PAINT</title>
+    <style>
+        body { font-family: sans-serif; margin: 20mm; font-size: 10pt; }
+        h1 { color: #b80000; text-align: center; font-size: 18pt; margin-bottom: 20px; }
+        h2 { color: #32a8a2; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 30px; font-size: 14pt; }
+        h3 { color: #666; margin-top: 15px; font-size: 12pt; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; table-layout: fixed; }
+        th, td { border: 1px solid #ccc; padding: 6px; text-align: left; word-wrap: break-word; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        .total { text-align: right; font-weight: bold; margin-top: 5px; font-size: 11pt; }
+        .footer { text-align: center; font-size: 8pt; color: #777; margin-top: 30px; }
+        .client-section { margin-bottom: 40px; page-break-inside: avoid; }
+        .client-header { background-color: #e8f4f8; padding: 10px; font-weight: bold; color: #333; margin-bottom: 10px; font-size: 13pt; }
+        .order-summary { margin-bottom: 15px; border: 1px solid #ddd; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>RAPPORT DES COMMANDES PAR CLIENT</h1>
+    <p><strong>Date de génération:</strong> {{ now|date:"d/m/Y H:i" }}</p>
+    
+    {% if orders_by_client %}
+        {% for user, orders in orders_by_client.items %}
+        <div class="client-section">
+            <div class="client-header">
+                👤 Client: {{ user.username }} ({{ user.email }}) - {{ orders|length }} Commande(s)
+            </div>
+            
+            {% for order in orders %}
+            <div class="order-summary">
+                <h2>Commande #{{ order.id }} - Date: {{ order.created_at|date:"d/m/Y à H:i" }}</h2>
+                <p><strong>Statut:</strong> {{ order.status }}</p>
+                <p>
+                    <strong>Adresse de livraison:</strong> 
+                    {% if order.shipping_address %}
+                        {{ order.shipping_address }}, {{ order.shipping_postal_code }} {{ order.shipping_city }}, {{ order.shipping_country }}
+                    {% else %}
+                        Non spécifiée
+                    {% endif %}
+                </p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Produit</th>
+                            <th style="width: 15%; text-align: center;">Quantité</th>
+                            <th style="width: 25%;">Prix unitaire</th>
+                            <th style="width: 20%;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }} ({{ item.product.color }})</td>
+                            <td style="text-align: center;">{{ item.quantity }}</td>
+                            <td>{{ item.price }} MAD</td>
+                            <td>{{ item.get_total }} MAD</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Aucun article dans cette commande.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p class="total">Total de la commande: {{ order.total }} MAD</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune commande à afficher.</p>
+    {% endif %}
+
+    <div class="footer">
+        INTER PAINT Ltd - Rapport des Commandes par Client<br>
+        Généré le {{ now|date:"d/m/Y à H:i" }}
+    </div>
+</body>
+</html> 

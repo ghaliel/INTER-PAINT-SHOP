@@ -1,0 +1,28 @@
+{% extends 'store/base.html' %}
+{% block title %}Messages - INTER PAINT{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:30px;">
+    <h1 style="color:#32a8a2; text-align:center; margin-bottom:30px;">Mes Messages</h1>
+
+    {% if messages %}
+        <div class="message-list">
+            {% for message in messages %}
+            <div class="message-item" style="padding:15px; border:1px solid #e0e0e0; border-radius:8px; margin-bottom:15px; {% if not message.is_read %}background:#e8f5e9; border-left:5px solid #4CAF50;{% endif %}">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="margin:0; color:#333; font-size:1.2em;">{{ message.subject }} {% if not message.is_read %}<span style="background:#d32f2f; color:white; padding:4px 8px; border-radius:12px; font-size:0.7em;">Non lu</span>{% endif %}</h3>
+                    <span style="color:#777; font-size:0.9em;">{{ message.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                <p style="color:#555; margin-bottom:10px;">De: <strong>{% if message.sender %}{{ message.sender.username }}{% else %}Visiteur{% endif %}</strong></p>
+                <p style="color:#666; margin-bottom:15px;">{{ message.body }}</p>
+                {% if not message.is_read %}
+                <a href="{% url 'store:mark_message_read' message.pk %}" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block;">Marquer comme lu</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center; color:#777;">Vous n'avez aucun message pour le moment.</p>
+    {% endif %}
+</div>
+{% endblock %} 

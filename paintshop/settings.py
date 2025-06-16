@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-eog_rw*@!zje$dmr53va=l%m17$+uk8)m9wn=84tst8d4&_*a&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'false'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
@@ -152,151 +152,84 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'elasrighali2003@gmail.com'
-EMAIL_PORT = 587 
-EMAIL_USE_TLS = True 
-EMAIL_HOST_USER = 'elasrighali2000@gmail.com'
-EMAIL_HOST_PASSWORD = 'client1234'
-DEFAULT_FROM_EMAIL = 'elasrighali2003@gmail.com' # L'adresse par défaut pour l'expéditeur
+# Configuration Email
+if DEBUG:
+    # En développement, afficher les emails dans la console
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # En production, utiliser SMTP Gmail
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'elasrighali2003.gmail.com'  # Serveur SMTP de Gmail
+    EMAIL_PORT = 587  # Port TLS
+    EMAIL_USE_TLS = True  # Utiliser TLS
+    EMAIL_HOST_USER = 'elasrighali2003@gmail.com'  # Votre email Gmail
+    EMAIL_HOST_PASSWORD = 'tjullxurpqepagzo'  # Votre mot de passe d'application Gmail
+
+DEFAULT_FROM_EMAIL = 'elasrighali2003@gmail.com'  # L'adresse par défaut pour l'expéditeur
 
 JAZZMIN_SETTINGS = {
-    # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": "INTER PAINT Admin",
-
-    # Title on the brand (full text)
     "site_header": "INTER PAINT",
-
-    # brand (super extreme short version, will take priority over site_header if present)
     "site_brand": "INTER PAINT",
-
-    # Logo to use for your site, must be present in static files, use relative path (default to jazzmin/img/logo.png)
-    "site_logo": "static/images/paint_shop_logo.png",
-
-    # Welcome text on the login screen
-    "welcome_sign": "Bienvenue à l'administration de INTER PAINT",
-
-    # Copyright on the footer
+    "site_icon": "/static/admin/img/logo.png", # Assurez-vous d'avoir un logo ici
+    "welcome_sign": "Bienvenue sur l'administration INTER PAINT",
     "copyright": "INTER PAINT Ltd",
-
-    # The model admin to search from the search bar, you can specify multiple models here
-    "search_model": ["store.PaintProduct", "store.Order"],
-
-    # Field name on user model that contains name of the user (first name and last name)
-    "user_avatar": None,
-
-    ############
-    # Top Menu #
-    ############
-
-    # Links to put along the top menu
-    "topmenu_links": [
-
-        # Url that would make sense for the user to go to after logging in (is displayed on login page)
-        {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
-
-        # external url that will be opened in a new window (tabs)
-        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-
-        # model admin to link to (auth.User)
-        {"model": "auth.User"},
-
-        # App with dropdown menu to all its models pages (last in the list)
-        {"app": "store"},
+    "search_model": ["store.PaintProduct", "store.Order", "store.Category"],
+    "topbar_links": [
+        {"name": "Accueil", "url": "admin:index", "new_window": False},
+        {"name": "Voir le site", "url": "/", "new_window": True},
     ],
-
-    #############
-    # Side Menu #
-    #############
-
-    # Whether to display the side menu
     "show_sidebar": True,
-
-    # Whether to aut expand the menu
     "navigation_expanded": True,
-
-    # Hide these apps when generating side menu
     "hide_apps": [],
-
-    # Hide these models when generating side menu
     "hide_models": [],
-
-    # List of apps (and/or models) to display in the side menu in the appropriate order.
-    # When a list of models is provided, the models can be rearranged within the app.
-    # Example:
-    # "order_with_respect_to": ["auth", "books", "books.Author", "books.Genre"],
-    "order_with_respect_to": ["auth", "store"],
-
-    # Custom icons for "apps" and "models". The default value is None.
-    # You can set 2 different icons depending on the url just like fontawesome url
-    # from https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0, 5.0.1 and 5.0.10
+    "order_with_respect_to": ["store.Category", "store.PaintProduct", "store.Order", "store.Cart", "store.CartItem", "auth.User"],
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.User": "fas fa-user",
+        "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
+        "store.Category": "fas fa-tag",
         "store.PaintProduct": "fas fa-paint-roller",
-        "store.Category": "fas fa-tags",
-        "store.Order": "fas fa-shopping-cart",
-        "store.Cart": "fas fa-shopping-basket",
+        "store.Cart": "fas fa-shopping-cart",
         "store.CartItem": "fas fa-box-open",
-        "store.OrderItem": "fas fa-clipboard-list",
+        "store.Order": "fas fa-truck",
+        "store.OrderItem": "fas fa-receipt",
     },
-    # Icons that are used when one is not specified for a model
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
-
-    #################
-    # Related Modal #
-    #################
-    # Use modals instead of popup windows
     "related_modal_active": False,
-
-    #############
-    # UI Tweaks #
-    #############
-    # Relative paths to custom CSS/JS files (load after theme UI);
-    # These files are loaded in the HEAD section
     "custom_css": None,
     "custom_js": None,
-    # Whether to show the UI customizer on the login page
     "show_ui_builder": False,
-
-    ###############
-    # Change view #
-    ###############
-    # Render out the change view as a backbone js app (follow django-admin)
     "changeform_format": "horizontal_tabs",
-    # override change forms on a per modeladmin basis
-    "changeform_format_overrides": {"auth.user": "vertical_tabs", "auth.group": "vertical_tabs"},
+    "changeform_format_overrides": {
+        "auth.user": "vertical_tabs",
+        "auth.group": "vertical_tabs",
+    },
+    "sidebar_links": [
+        {
+            "name": "Rapports",
+            "icon": "fas fa-file-pdf",
+            "children": [
+                {"name": "Rapport Global des Commandes", "url": "admin:admin_order_report_pdf"},
+                {"name": "Rapport des Commandes par Client", "url": "admin:admin_order_report_by_client_pdf"},
+                {"name": "Rapport Professionnel du Site", "url": "admin:admin_site_report_pdf"},
+            ]
+        },
+    ],
 }
 
 JAZZMIN_UI_TWEAKS = {
     "navbar_small": False,
     "footer_small": False,
-    "body_small": False,
-    "brand_small": False,
-    "brand_colour": "navbar-teal",
-    "accent": "accent-warning",
-    "navbar": "navbar-white navbar-light",
-    "no_navbar_border": False,
-    "navbar_fixed": False,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": False,
-    "sidebar_nav_small": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
+    "sidebar_show_brand": True,
+    "sidebar_class": "sidebar-dark-primary",
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": True,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "united",
-    "dark_mode_theme": None,
-    "button_classes": {
-        "primary": "btn-outline-primary",
-        "secondary": "btn-outline-secondary",
-        "info": "btn-outline-info",
-        "warning": "btn-outline-warning",
-        "danger": "btn-outline-danger",
-        "success": "btn-outline-success"
-    }
+    "theme": "darkly",
+    "dark_mode_listener": True,
+    "body_class": None,
+    "actions_sticky_top": True,
 }

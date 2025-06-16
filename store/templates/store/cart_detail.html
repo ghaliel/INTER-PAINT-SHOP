@@ -16,16 +16,16 @@
         <tr>
             <td>{{ data.item.product.name }}</td>
             <td>
-                <form method="post" action="{% url 'update_cart_item' data.item.id %}" style="display:inline;">
+                <form method="post" action="{% url 'store:update_cart_item' data.item.id %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="number" name="quantity" value="{{ data.item.quantity }}" min="1" max="{{ data.item.product.stock }}" style="width:50px;padding:4px;border-radius:4px;border:1px solid #ccc;">
                     <button type="submit" class="btn" style="padding:4px 10px;font-size:0.95em;">Modifier</button>
                 </form>
             </td>
-            <td>{{ data.item.product.price }} €</td>
-            <td>{{ data.item_total|floatformat:2 }} €</td>
+            <td>{{ data.item.product.price }} MAD</td>
+            <td>{{ data.item_total|floatformat:2 }} MAD</td>
             <td>
-                <form method="post" action="{% url 'update_cart_item' data.item.id %}" style="display:inline;">
+                <form method="post" action="{% url 'store:update_cart_item' data.item.id %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="0">
                     <button type="submit" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;padding:4px 10px;font-size:0.95em;">Supprimer</button>
@@ -35,9 +35,9 @@
         {% endfor %}
     </table>
     <div style="text-align:right;margin-top:18px;font-size:1.2em;font-weight:bold;color:#b80000;">
-        Total : {{ cart_total|floatformat:2 }} €
+        Total : {{ cart_total|floatformat:2 }} MAD
     </div>
-    <form method="post" action="{% url 'place_order' %}" style="text-align:right;margin-top:18px;">
+    <form method="post" action="{% url 'store:place_order' %}" style="text-align:right;margin-top:18px;">
         {% csrf_token %}
         <button type="submit" class="btn">Passer la commande</button>
     </form>
@@ -45,6 +45,6 @@
         <p>Votre panier est vide.</p>
     {% endif %}
     <br>
-    <a href="{% url 'product_list' %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">← Continuer mes achats</a>
+    <a href="{% url 'store:product_list' %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">← Continuer mes achats</a>
 </div>
 {% endblock %} 

@@ -1,0 +1,14 @@
+{% extends 'store/base.html' %}
+{% block title %}Réapprovisionner les Produits - INTER PAINT{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:30px;">
+    <h1 style="color:#9c27b0; text-align:center; margin-bottom:30px;">Réapprovisionner les Produits</h1>
+
+    <p style="text-align:center; color:#777;">Cette page permettra de gérer les commandes de réapprovisionnement auprès des fournisseurs.</p>
+    
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{% url 'store:stock_status' %}" class="btn" style="background:#32a8a2; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block;">Voir l'État des Stocks</a>
+    </div>
+</div>
+{% endblock %} 

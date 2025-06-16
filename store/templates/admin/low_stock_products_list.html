@@ -1,0 +1,38 @@
+{% extends 'store/base.html' %}
+{% block title %}Produits en Stock Faible - INTER PAINT{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:30px;">
+    <h1 style="color:#ff9800; text-align:center; margin-bottom:30px;">Produits en Stock Faible</h1>
+
+    {% if products %}
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+                <thead>
+                    <tr style="background:#ffe0b2;">
+                        <th style="padding:12px; text-align:left;">Produit</th>
+                        <th style="padding:12px; text-align:left;">Catégorie</th>
+                        <th style="padding:12px; text-align:left;">Stock Actuel</th>
+                        <th style="padding:12px; text-align:left;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr style="border-bottom:1px solid #ffcc80;">
+                        <td style="padding:12px;">{{ product.name }} ({{ product.color }})</td>
+                        <td style="padding:12px;">{{ product.category.name }}</td>
+                        <td style="padding:12px;"><span style="color:#d32f2f; font-weight:bold;">{{ product.stock }}</span></td>
+                        <td style="padding:12px;">
+                            <a href="{% url 'store:product_detail' product.pk %}" class="btn" style="background:#32a8a2; color:#fff; padding:6px 12px; text-decoration:none; border-radius:4px; display:inline-block;">Voir</a>
+                            <a href="{% url 'store:send_stock_alert' product.pk %}" class="btn" style="background:#ff9800; color:#fff; padding:6px 12px; text-decoration:none; border-radius:4px; display:inline-block; margin-left:5px;">Envoyer alerte</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p style="text-align:center; color:#777;">Aucun produit en stock faible pour le moment.</p>
+    {% endif %}
+</div>
+{% endblock %} 

@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+# from paintshop.admin import admin_site # Commenté ou supprimé
+from store.views import home, product_list # Importer les vues home et product_list
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('store.urls')),
+    path('admin/', admin.site.urls), # Utiliser le site d'administration Django par défaut
+    path('', home, name='home'), # Définir home comme page d'accueil principale
+    path('store/', include('store.urls')), # Inclure les URLs de l'application store sous un préfixe
 ]
 
 if settings.DEBUG:

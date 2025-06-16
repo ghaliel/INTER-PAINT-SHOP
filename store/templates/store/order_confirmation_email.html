@@ -7,13 +7,13 @@ Votre commande est actuellement : {{ order.status }}.
 
 Détails de la commande :
 {% for item in order.items.all %}
-- {{ item.quantity }} x {{ item.product.name }} ({{ item.product.color }}) - {{ item.price }} €/unité
+- {{ item.quantity }} x {{ item.product.name }} ({{ item.product.color }}) - {{ item.price }} MAD/unitaire
 {% endfor %}
 
-Total de la commande : {{ order.total }} €
+Total de la commande : {{ order.total }} MAD
 
 Vous pouvez consulter le statut de votre commande et votre historique ici :
-{{ request.build_absolute_uri }}{% url 'order_history' %}
+{{ request.build_absolute_uri }}{% url 'store:order_history' %}
 
 Nous vous remercions de votre achat chez INTER PAINT.
 

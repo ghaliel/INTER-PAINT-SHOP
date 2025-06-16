@@ -28,7 +28,7 @@
             {% else %}
                 <div style="width:220px;height:160px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#aaa;">Aucune image</div>
             {% endif %}
-            <div class="name" style="font-size:1.2em;margin:10px 0 4px 0;"><a href="{% url 'product_detail' product.pk %}" style="color:#b80000;">{{ product.name }}</a></div>
+            <div class="name" style="font-size:1.2em;margin:10px 0 4px 0;"><a href="{% url 'store:product_detail' product.pk %}" style="color:#b80000;">{{ product.name }}</a></div>
             <div class="desc" style="color:#555;">{{ product.description|truncatechars:60 }}</div>
             <div class="color" style="font-weight:bold;color:#b80000;">Couleur : {{ product.color }}</div>
             <div class="category" style="color:#888;">Catégorie : {{ product.category }}</div>
@@ -39,19 +39,19 @@
                     <span style="color:#0066cc;">🔧 Gamme Pro</span>
                 {% endif %}
             </div>
-            <div class="price" style="font-size:1.1em;color:#b80000;margin:8px 0 2px 0;">{{ product.price }} €</div>
+            <div class="price" style="font-size:1.1em;color:#b80000;margin:8px 0 2px 0;">{{ product.price }} MAD</div>
             <div class="stock" style="color:#888;">Stock : {{ product.stock }}</div>
             <div style="margin-top:10px;display:flex;gap:8px;">
-                <form method="post" action="{% url 'add_to_cart' product.pk %}" style="display:flex;gap:5px;align-items:center;">
+                <form method="post" action="{% url 'store:add_to_cart' product.pk %}" style="display:flex;gap:5px;align-items:center;">
                     {% csrf_token %}
                     <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" style="width:50px;padding:6px;border-radius:4px;border:1px solid #ccc;">
                     {% if user.is_authenticated %}
                         <button type="submit" class="btn">Ajouter au panier</button>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn">Connectez-vous pour acheter</a>
+                        <a href="{% url 'store:login' %}" class="btn">Connectez-vous pour acheter</a>
                     {% endif %}
                 </form>
-                <a href="{% url 'product_detail' product.pk %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">Détail</a>
+                <a href="{% url 'store:product_detail' product.pk %}" class="btn" style="background:#fff;color:#b80000;border:1.5px solid #b80000;">Détail</a>
             </div>
         </div>
     {% empty %}

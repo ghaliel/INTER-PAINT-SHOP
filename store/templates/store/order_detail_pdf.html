@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facture Commande #{{ order.id }} - INTER PAINT</title>
+    <style>
+        body { font-family: sans-serif; margin: 20mm; }
+        h1 { color: #b80000; text-align: center; }
+        h2 { color: #32a8a2; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; word-wrap: break-word; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        /* Adjusted column widths for product details table */
+        table.product-details th:nth-child(1), table.product-details td:nth-child(1) { width: 50%; } /* Produit */
+        table.product-details th:nth-child(2), table.product-details td:nth-child(2) { width: 15%; } /* Couleur */
+        table.product-details th:nth-child(3), table.product-details td:nth-child(3) { width: 8%; } /* Quantité */
+        table.product-details th:nth-child(4), table.product-details td:nth-child(4) { width: 13%; } /* Prix unitaire */
+        table.product-details th:nth-child(5), table.product-details td:nth-child(5) { width: 14%; } /* Total */
+        .summary-item { margin-bottom: 5px; }
+        .summary-item strong { color: #b80000; }
+        .total { text-align: right; font-weight: bold; margin-top: 10px; font-size: 1.1em; }
+        .footer { text-align: center; font-size: 0.8em; color: #777; margin-top: 30px; }
+        .header-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .company-info { background-color: #f9f9f9; padding: 15px; border-radius: 5px; }
+        .order-info { background-color: #e8f4f8; padding: 15px; border-radius: 5px; }
+        .product-details { background-color: #fff; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>FACTURE INTER PAINT</h1>
+    
+    <div class="header-info">
+        <div class="company-info">
+            <h3>INTER PAINT</h3>
+            <p><strong>Adresse:</strong>Gueliz, Marrakech<br>
+            <strong>Ville:</strong> Marrakech<br>
+            <strong>Code Postal:</strong> 40000<br>
+            <strong>Pays:</strong> Maroc<br>
+            <strong>Téléphone:</strong> +212 645 250 178<br>
+            <strong>Email:</strong> elasrighali2003@gmail.com</p>
+        </div>
+        
+        <div class="order-info">
+            <h3>Informations de la Commande</h3>
+            <p><strong>Numéro de facture:</strong> #{{ order.id }}</p>
+            <p><strong>Date de commande:</strong> {{ order.created_at|date:"d/m/Y H:i" }}</p>
+            <p><strong>Statut:</strong> {{ order.status }}</p>
+            <p><strong>Client:</strong> {{ order.user.username }}</p>
+            {% if order.user.email %}
+            <p><strong>Email:</strong> {{ order.user.email }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2>Adresse de Livraison</h2>
+    <div class="summary-item">
+        {% if order.shipping_address %}
+            <strong>Adresse:</strong> {{ order.shipping_address }}<br>
+            <strong>Ville:</strong> {{ order.shipping_city }}<br>
+            <strong>Code Postal:</strong> {{ order.shipping_postal_code }}<br>
+            <strong>Pays:</strong> {{ order.shipping_country }}
+        {% else %}
+            <em>Adresse de livraison non spécifiée</em>
+        {% endif %}
+    </div>
+
+    <h2>Détails des Produits</h2>
+    <table class="product-details">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Couleur</th>
+                <th>Quantité</th>
+                <th style="text-align: right;">Prix unitaire</th>
+                <th style="text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.color }}</td>
+                <td>{{ item.quantity }}</td>
+                <td style="text-align: right;">{{ item.price }}</td>
+                <td style="text-align: right;">{{ item.get_total }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Aucun article dans cette commande.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p class="total">Total Général de la Commande: {{ order.total }} MAD</p>
+
+    <div class="footer">
+        <p><strong>INTER PAINT</strong> - Votre spécialiste de la peinture de qualité</p>
+        <p>Merci pour votre confiance !</p>
+        <p>Facture générée le {{ order.created_at|date:"d/m/Y à H:i" }}</p>
+    </div>
+</body>
+</html> 

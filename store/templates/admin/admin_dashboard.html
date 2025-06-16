@@ -1,0 +1,147 @@
+{% extends 'store/base.html' %}
+{% block title %}Tableau de Bord Staff - INTER PAINT{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:1200px; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:30px;">
+    <h1 style="color:#32a8a2; text-align:center; margin-bottom:30px;">Tableau de Bord Staff</h1>
+    
+    <!-- Section Tâches Prioritaires -->
+    <div style="background:#fff3e0; padding:20px; border-radius:8px; margin-bottom:30px; border-left:4px solid #ff9800;">
+        <h2 style="color:#ff9800; margin-top:0; font-size:1.3em;">Tâches Prioritaires</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:15px;">
+            <div style="background:white; padding:15px; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+                <p style="margin:0; color:#666;"><strong>Commandes en attente:</strong> <span style="color:#ff5722;">{{ pending_orders }} commandes</span></p>
+            </div>
+            <div style="background:white; padding:15px; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+                <p style="margin:0; color:#666;"><strong>Stock faible:</strong> <span style="color:#ff5722;">{{ low_stock_products }} produits</span></p>
+            </div>
+            <div style="background:white; padding:15px; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+                <p style="margin:0; color:#666;"><strong>Messages non lus:</strong> <span style="color:#ff5722;">{{ unread_messages }} messages</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:25px;">
+        
+        {% if user.is_superuser %}
+        <div class="card" style="background:#f0f9f9; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); text-align:center; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+            <h2 style="color:#32a8a2; margin-top:0; font-size:1.5em;">Gestion Complète des Produits</h2>
+            <p style="color:#555;">Accès complet pour ajouter, modifier ou supprimer des produits.</p>
+            <div style="margin-top:15px;">
+                <a href="/admin/store/paintproduct/" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Gérer les Produits</a>
+                <a href="/admin/store/paintproduct/add/" class="btn" style="background:#4CAF50; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Ajouter un Produit</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card" style="background:#f0f9f9; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); text-align:center; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="position:relative;">
+                {% if low_stock_products > 0 %}
+                <span style="position:absolute; top:-10px; right:-10px; background:#ff5722; color:white; padding:2px 8px; border-radius:12px; font-size:0.8em;">{{ low_stock_products }} alertes</span>
+                {% endif %}
+            </div>
+            <h2 style="color:#32a8a2; margin-top:0; font-size:1.5em;">Catalogue & Stock</h2>
+            <p style="color:#555;">Gérez le stock et consultez le catalogue.</p>
+            <div style="margin-top:15px;">
+                <a href="{% url 'store:product_list' %}" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Voir le Catalogue</a>
+                <a href="{% url 'store:low_stock_products_list' %}" class="btn" style="background:#ff9800; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Alertes Stock</a>
+            </div>
+        </div>
+
+        <div class="card" style="background:#f0f9f9; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); text-align:center; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="position:relative;">
+                {% if pending_orders > 0 %}
+                <span style="position:absolute; top:-10px; right:-10px; background:#ff5722; color:white; padding:2px 8px; border-radius:12px; font-size:0.8em;">{{ pending_orders }} en attente</span>
+                {% endif %}
+            </div>
+            <h2 style="color:#32a8a2; margin-top:0; font-size:1.5em;">Commandes</h2>
+            <p style="color:#555;">Traitez les commandes et suivez les livraisons.</p>
+            <div style="margin-top:15px;">
+                <a href="{% url 'store:new_orders_list' %}" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Nouvelles Commandes</a>
+                <a href="{% url 'store:in_preparation_orders_list' %}" class="btn" style="background:#4caf50; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">En Préparation</a>
+            </div>
+        </div>
+
+        <div class="card" style="background:#f0f9f9; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); text-align:center; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="position:relative;">
+                {% if unread_messages > 0 %}
+                <span style="position:absolute; top:-10px; right:-10px; background:#ff5722; color:white; padding:2px 8px; border-radius:12px; font-size:0.8em;">{{ unread_messages }} non lus</span>
+                {% endif %}
+            </div>
+            <h2 style="color:#32a8a2; margin-top:0; font-size:1.5em;">Service Client</h2>
+            <p style="color:#555;">Répondez aux demandes clients et suivez les tickets.</p>
+            <div style="margin-top:15px;">
+                <a href="{% url 'store:message_list' %}" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Messages</a>
+                <a href="{% url 'store:contact' %}" class="btn" style="background:#2196f3; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Tickets</a>
+            </div>
+        </div>
+
+        <div class="card" style="background:#f0f9f9; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); text-align:center; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+            <h2 style="color:#32a8a2; margin-top:0; font-size:1.5em;">Inventaire</h2>
+            <p style="color:#555;">Gérez les stocks et les réapprovisionnements.</p>
+            <div style="margin-top:15px;">
+                <a href="{% url 'store:stock_status' %}" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">État des Stocks</a>
+            </div>
+        </div>
+
+        <div class="card" style="background:#f0f9f9; padding:25px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); text-align:center; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+            <h2 style="color:#32a8a2; margin-top:0; font-size:1.5em;">Mes Activités</h2>
+            <p style="color:#555;">Suivez vos performances et tâches quotidiennes.</p>
+            <div style="margin-top:15px;">
+                <a href="{% url 'store:admin_site_report_pdf' %}" class="btn" style="background:#32a8a2; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Mes Rapports</a>
+                <a href="{% url 'store:staff_planning' %}" class="btn" style="background:#607d8b; color:#fff; padding:8px 15px; text-decoration:none; border-radius:5px; display:inline-block; margin:5px;">Planning</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Section Commandes Récentes -->
+    {% if recent_orders %}
+    <div style="margin-top:30px; background:#f8f9fa; padding:20px; border-radius:8px;">
+        <h2 style="color:#32a8a2; margin-top:0; font-size:1.3em;">Commandes Récentes</h2>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+                <thead>
+                    <tr style="background:#e9ecef;">
+                        <th style="padding:12px; text-align:left;">N° Commande</th>
+                        <th style="padding:12px; text-align:left;">Client</th>
+                        <th style="padding:12px; text-align:left;">Date</th>
+                        <th style="padding:12px; text-align:left;">Statut</th>
+                        <th style="padding:12px; text-align:left;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr style="border-bottom:1px solid #dee2e6;">
+                        <td style="padding:12px;"><a href="{% url 'store:order_tracking' order.pk %}" style="color:#32a8a2; text-decoration:none; font-weight:bold;">#{{ order.id }}</a></td>
+                        <td style="padding:12px;">{{ order.user.username }}</td>
+                        <td style="padding:12px;">{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                        <td style="padding:12px;">
+                            <span style="padding:4px 8px; border-radius:4px; font-size:0.9em; 
+                                {% if order.status == 'En attente' %}background:#fff3cd; color:#856404;
+                                {% elif order.status == 'Confirmée' %}background:#d4edda; color:#155724;
+                                {% elif order.status == 'Annulée' %}background:#f8d7da; color:#721c24;
+                                {% else %}background:#e2e3e5; color:#383d41;{% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+                        <td style="padding:12px;">{{ order.total }} MAD</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.btn:hover {
+    opacity: 0.9;
+}
+</style>
+{% endblock %} 

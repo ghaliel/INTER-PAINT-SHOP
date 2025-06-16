@@ -10,7 +10,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn">Mettre à jour l'adresse</button>
-        <a href="{% url 'order_history' %}" class="btn" style="background:#fff;color:#32a8a2;border:1.5px solid #32a8a2;margin-left:10px;">Annuler</a>
+        <a href="{% url 'store:order_history' %}" class="btn" style="background:#fff;color:#32a8a2;border:1.5px solid #32a8a2;margin-left:10px;">Annuler</a>
     </form>
 </div>
 {% endblock %} 

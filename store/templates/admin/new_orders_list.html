@@ -1,0 +1,45 @@
+{% extends 'store/base.html' %}
+{% block title %}Nouvelles Commandes - INTER PAINT{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:30px;">
+    <h1 style="color:#32a8a2; text-align:center; margin-bottom:30px;">Nouvelles Commandes</h1>
+
+    {% if orders %}
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+                <thead>
+                    <tr style="background:#e9ecef;">
+                        <th style="padding:12px; text-align:left;">N° Commande</th>
+                        <th style="padding:12px; text-align:left;">Client</th>
+                        <th style="padding:12px; text-align:left;">Date</th>
+                        <th style="padding:12px; text-align:left;">Statut</th>
+                        <th style="padding:12px; text-align:left;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr style="border-bottom:1px solid #dee2e6;">
+                        <td style="padding:12px;"><a href="{% url 'store:order_tracking' order.pk %}" style="color:#32a8a2; text-decoration:none; font-weight:bold;">#{{ order.id }}</a></td>
+                        <td style="padding:12px;">{{ order.user.username }}</td>
+                        <td style="padding:12px;">{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                        <td style="padding:12px;">
+                            <span style="padding:4px 8px; border-radius:4px; font-size:0.9em; 
+                                {% if order.status == 'En attente' %}background:#fff3cd; color:#856404;
+                                {% elif order.status == 'Confirmée' %}background:#d4edda; color:#155724;
+                                {% elif order.status == 'Annulée' %}background:#f8d7da; color:#721c24;
+                                {% else %}background:#e2e3e5; color:#383d41;{% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+                        <td style="padding:12px;">{{ order.total }} MAD</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p style="text-align:center; color:#777;">Aucune nouvelle commande pour le moment.</p>
+    {% endif %}
+</div>
+{% endblock %} 

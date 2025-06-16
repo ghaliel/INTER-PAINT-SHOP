@@ -1,0 +1,16 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    <li>
+        <a href="{% url 'admin:admin_site_report_pdf' %}" class="btn btn-primary" target="_blank">
+            <i class="fas fa-file-pdf"></i> Générer Rapport Site (PDF)
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:admin_order_report_pdf' %}" class="btn btn-info" target="_blank">
+            <i class="fas fa-file-pdf"></i> Générer Rapport Commandes (PDF)
+        </a>
+    </li>
+    {{ block.super }}
+{% endblock %} 

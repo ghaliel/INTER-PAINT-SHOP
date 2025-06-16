@@ -1,8 +1,9 @@
 from django.urls import path
 from . import views
 
+app_name = 'store'
+
 urlpatterns = [
-    path('', views.product_list, name='product_list'),
     path('produit/<int:pk>/', views.product_detail, name='product_detail'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
@@ -12,9 +13,29 @@ urlpatterns = [
     path('panier/modifier/<int:item_id>/', views.update_cart_item, name='update_cart_item'),
     path('commander/', views.place_order, name='place_order'),
     path('commandes/', views.order_history, name='order_history'),
+    path('commandes/suivi/<int:pk>/', views.order_tracking, name='order_tracking'),
     path('commandes/annuler/<int:pk>/', views.cancel_order, name='cancel_order'),
     path('commandes/modifier-adresse/<int:pk>/', views.edit_shipping_address, name='edit_shipping_address'),
     path('contact/', views.contact, name='contact'),
-    path('home/', views.home, name='home'),
     path('about/', views.about, name='about'),
+    path('', views.product_list, name='product_list'),
+    path('rapport-commandes-pdf/', views.order_report_pdf, name='order_report_pdf'),
+    path('rapport-commande-detail-pdf/<int:pk>/', views.order_detail_pdf, name='order_detail_pdf'),
+    path('api/order-status/<int:pk>/', views.get_order_status, name='get_order_status'),
+    path('admin/rapport-global-commandes-pdf/', views.admin_order_report_pdf, name='admin_order_report_pdf'),
+    path('admin/rapport-commandes-par-client-pdf/', views.admin_order_report_by_client_pdf, name='admin_order_report_by_client_pdf'),
+    path('admin/rapport-site-professionnel-pdf/', views.admin_site_report_pdf, name='admin_site_report_pdf'),
+    path('profile/update/', views.profile_update, name='profile_update'),
+    path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/messages/', views.message_list, name='message_list'),
+    path('admin/messages/read/<int:pk>/', views.mark_message_read, name='mark_message_read'),
+    path('admin/stock/low-stock/', views.low_stock_products_list, name='low_stock_products_list'),
+    path('admin/orders/new/', views.new_orders_list, name='new_orders_list'),
+    path('admin/orders/in-preparation/', views.in_preparation_orders_list, name='in_preparation_orders_list'),
+    path('admin/service-client/tickets/', views.tickets_dashboard, name='tickets_dashboard'),
+    path('admin/inventaire/status/', views.stock_status, name='stock_status'),
+    path('admin/inventaire/reapprovisionner/', views.reorder_products, name='reorder_products'),
+    path('admin/activites/planning/', views.staff_planning, name='staff_planning'),
+    path('admin/stock/send-alert/<int:pk>/', views.send_stock_alert, name='send_stock_alert'),
+    path('admin/superuser/dashboard/', views.superuser_dashboard, name='superuser_dashboard'),
 ] 

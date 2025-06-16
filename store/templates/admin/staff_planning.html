@@ -1,0 +1,35 @@
+{% extends 'store/base.html' %}
+{% block title %}Planning Staff - INTER PAINT{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-top:30px;">
+    <h1 style="color:#607d8b; text-align:center; margin-bottom:30px;">Planning du Staff</h1>
+
+    <div class="planning-form" style="margin-bottom:40px; padding:20px; border:1px solid #e0e0e0; border-radius:8px;">
+        <h2 style="color:#607d8b; margin-top:0; font-size:1.3em;">Ajouter une Nouvelle Entrée</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn" style="background:#32a8a2; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block; margin-top:15px;">Ajouter au Planning</button>
+        </form>
+    </div>
+
+    <div class="planning-list">
+        <h2 style="color:#607d8b; margin-top:0; font-size:1.3em;">Mon Planning</h2>
+        {% if planning_entries %}
+            {% for entry in planning_entries %}
+            <div class="planning-item" style="padding:15px; border:1px solid #e0e0e0; border-radius:8px; margin-bottom:15px; background:#f8f8f8;">
+                <h3 style="margin:0; color:#333; font-size:1.1em;">{{ entry.date|date:"d/m/Y" }} - {{ entry.start_time|date:"H:i" }} à {{ entry.end_time|date:"H:i" }}</h3>
+                <p style="color:#555; margin-bottom:0;">Tâche: {{ entry.task_description }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center; color:#777;">Aucune entrée de planning pour le moment.</p>
+        {% endif %}
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{% url 'store:admin_dashboard' %}" class="btn" style="background:#32a8a2; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block;">Retour au Tableau de Bord</a>
+    </div>
+</div>
+{% endblock %} 
