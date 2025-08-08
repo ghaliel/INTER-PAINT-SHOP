@@ -155,7 +155,7 @@ if not DEBUG:
 # Configuration Email
 if DEBUG:
     # En développement, afficher les emails dans la console
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'          
 else:
     # En production, utiliser SMTP Gmail
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
