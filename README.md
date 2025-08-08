@@ -49,13 +49,27 @@ INTER PAINT est une application web Django complète pour la gestion d'une entre
 
 ## 🔧 Installation
 
+### **Méthode 1: Démarrage Simple (Recommandé)**
+
 1. **Cloner le repository**
 ```bash
-git clone https://github.com/votre-username/inter-paint.git
-cd inter-paint
+git clone https://github.com/ghaliel/INTER-PAINT-SHOP.git
+cd INTER-PAINT-SHOP
 ```
 
-2. **Créer un environnement virtuel**
+2. **Lancer l'application**
+```bash
+# Double-cliquez sur :
+lancer_simple.bat
+```
+
+3. **Ouvrir dans le navigateur**
+- Interface client : http://127.0.0.1:8000
+- Interface admin : http://127.0.0.1:8000/admin
+
+### **Méthode 2: Installation Complète**
+
+1. **Créer un environnement virtuel**
 ```bash
 python -m venv venv
 # Sur Windows
@@ -64,37 +78,60 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-3. **Installer les dépendances**
+2. **Installer les dépendances**
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Configurer la base de données**
+3. **Configurer la base de données**
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-5. **Créer un super-utilisateur**
+4. **Créer un super-utilisateur**
 ```bash
 python manage.py createsuperuser
 ```
 
-6. **Configurer les paramètres SMTP** (dans `paintshop/settings.py`)
-```python
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # ou votre serveur SMTP
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'votre-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'votre-mot-de-passe-application'
-DEFAULT_FROM_EMAIL = 'votre-email@gmail.com'
-```
-
-7. **Lancer le serveur**
+5. **Lancer le serveur**
 ```bash
 python manage.py runserver
 ```
+
+### **Méthode 3: Exécutable Portable**
+
+1. **Construire l'exécutable**
+```bash
+python build_portable_fixed.py
+```
+
+2. **Lancer l'exécutable**
+```bash
+# Depuis le dossier dist_portable
+.\PaintShop_Portable.exe
+```
+
+## 🔧 Corrections et Améliorations
+
+### **Problèmes Résolus**
+- ✅ **Erreur "list index out of range"** : Corrigée dans l'exécutable portable
+- ✅ **Problèmes d'encodage** : Suppression des emojis incompatibles
+- ✅ **Commandes Django manquantes** : Ajout de tous les imports nécessaires
+- ✅ **Gestion des arguments** : Scripts robustes pour éviter les erreurs
+
+### **Solutions Alternatives**
+- 🚀 **Démarrage simple** : Script `lancer_simple.bat` pour un lancement rapide
+- 🔧 **Scripts de test** : Vérification automatique du bon fonctionnement
+- 📚 **Documentation complète** : Guides détaillés pour tous les cas d'usage
+- 🛠️ **Outils de dépannage** : Scripts de diagnostic et de correction
+
+### **Fichiers de Correction**
+- `final_portable_fixed.py` - Script principal corrigé
+- `build_portable_fixed.py` - Script de build amélioré
+- `lancer_simple.bat` - Solution de démarrage alternative
+- `GUIDE_DEMARRAGE_ALTERNATIF.md` - Guide complet des solutions
+- `verifier_correction.py` - Outil de vérification
 
 ## 📁 Structure du Projet
 
